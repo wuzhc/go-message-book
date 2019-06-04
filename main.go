@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	_ "my-web/routers"
+	_ "message-book/routers"
 
 	"github.com/astaxie/beego"
 )

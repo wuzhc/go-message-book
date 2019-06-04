@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"my-web/models"
+	"message-book/models"
 	"time"
 )
 

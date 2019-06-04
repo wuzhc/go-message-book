@@ -2,7 +2,7 @@ package routers
 
 import (
 	"fmt"
-	"my-web/controllers"
+	"message-book/controllers"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
