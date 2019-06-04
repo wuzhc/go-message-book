@@ -1,0 +1,96 @@
+<fieldset class="layui-elem-field layui-field-title">
+  <legend>{{.name}}</legend>
+  <div class="layui-field-box">
+  <div class="layui-btn-container">
+    <a class="layui-btn" href="/home/index">添加留言</a> 
+  </div>
+
+   <table class="layui-table">
+  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>用户名</th>
+      <th>主题</th>
+      <th>内容</th>
+      <th>评论时间</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+  {{range .comments}}
+    <tr>
+      <td>{{.userName}}</td>
+      <td>{{.topicName}}</td>
+      <td>{{.text}}</td>
+      <td>{{.createTime}}</td>
+      <td>
+      <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-primary layui-btn-sm">
+          <i class="layui-icon">&#xe654;</i>
+        </button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm">
+          <i class="layui-icon">&#xe642;</i>
+        </button>
+        <button class="layui-btn layui-btn-primary layui-btn-sm del-comment" data-id="{{.id}}">
+          <i class="layui-icon">&#xe640;</i>
+        </button>
+      </div>
+            
+      </td>
+    </tr>
+  {{end}}
+  </tbody>
+</table>
+  </div>
+</fieldset>
+ 
+<script>
+//Demo
+layui.use(['form','jquery'], function(){
+  var form = layui.form;
+  var $ = layui.jquery;
+
+  $(".del-comment").on("click",function(){
+    var self = $(this);
+    layer.confirm('确定要删除?', {icon: 3, title:'提示'}, function(index){
+      $.ajax({
+        url: "/home/delete",
+        type: "get",
+        data: {id: self.data("id")},
+        dataType: "json",
+        success: function(res){
+          if (res.code === 0) {
+            layer.msg("删除成功",{icon:6},function(){
+              window.location.href="/home/list"
+            })
+          } else {
+            layer.msg("删除失败",{icon:5})
+          }
+        }
+      })
+      layer.close(index);
+    });
+  })
+  
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    $.ajax({
+      url: "/home/save",
+      data: data.field,
+      dataType: "json",
+      type: "POST",
+      success: function(res){
+        layer.msg(res.msg)
+      },
+      error: function() {
+        layer.msg("网络错误")
+      }
+    })
+    return false;
+  });
+});
+</script>
